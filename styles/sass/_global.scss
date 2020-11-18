@@ -6,3 +6,23 @@ img {
     display: block;
     width: 100%;
 }
+
+// STRIP ALL STYLES
+* {
+    margin: 0;
+    padding: 0;
+}
+
+ul {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+p, h1, h2 {
+    margin: 0;
+    padding: 0;
+}

@@ -243,3 +243,67 @@ img {
   display: block;
   width: 100%;
 }
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+p, h1, h2 {
+  margin: 0;
+  padding: 0;
+}
+
+.wrapper {
+  width: 75%;
+  margin: 0 auto;
+}
+
+main {
+  min-height: 50vh;
+  padding: 20px 0;
+  border: 1px solid black;
+}
+
+.main__ul-sports-btn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  border: 1px solid black;
+}
+
+.main__ul-sports-location li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-top: 20px;
+  border: 1px solid black;
+}
+
+header, footer {
+  text-align: center;
+}
+
+header {
+  background-image: url("./../assets/soccer-ball-in-grass.jpg");
+  background-size: cover;
+  height: 60vh;
+}
