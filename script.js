@@ -1,0 +1,1 @@
+// event listener on the button, get value of that button, pass the value in the getSportsInfo ajax call, that call returns the sports id for the chosen sport(aka this), pass the id into the get locations call, get locations, print location onto page. 
