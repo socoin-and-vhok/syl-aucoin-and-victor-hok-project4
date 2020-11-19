@@ -6,7 +6,7 @@
 
 //TO DO List - in no particular order
 //Make getFacilities dynamic based on location chosen/or geolocation
-//Access mapquest API to get the missing addresses based on long lat coordinates for locations results.(coordinates nested in geometry)
+//MapQuest AJAX call, remove .then() and fail(), push promises onto an array, and then spread the array onto when() and do something with then() and fail() collectively
 //Update the Hero image to the relevant sport
 //Define a function to insert in the else statement for the getGeolocation function
     //This function will:
@@ -30,6 +30,7 @@ sportsApp.sportsResultsArray = [];
 sportsApp.sports;
 sportsApp.sportId;
 sportsApp.sportFacilities;
+sportsApp.sportsFacilitiesMissingAddresses;
 
 
 
@@ -80,6 +81,21 @@ sportsApp.getAllSports = () => {
     });
 }
 
+sportsApp.getSportsFacilitiesMissingAddresses = (latitude, longitude) => {
+    $.ajax({
+        url: 'http://www.mapquestapi.com/geocoding/v1/reverse',
+        method: 'GET',
+        dataType: 'json',
+        data: {
+            key: 'aq0dtJQmXhGHcCstNhRuyNo5OnYoZM0s',
+            location: `${latitude},${longitude}`
+        }
+    }).then( (successfulAddressResponse) => {
+        console.log(successfulAddressResponse);
+    }).fail( () => {
+
+    });
+};
 
 sportsApp.getSportsFacilities = (id) => {
  // Purpose: Sport's ID number --> Array of sport facilities
@@ -89,7 +105,6 @@ sportsApp.getSportsFacilities = (id) => {
             method: 'GET',
             dataType: 'json',
             data: {
-
                 sports: id,
                 origin: '-79.383302,43.653752', // T.O. Downtown
                 radius: '20',
@@ -103,6 +118,13 @@ sportsApp.getSportsFacilities = (id) => {
                 $('.main__ul-sports-location').empty();
                 //call the print resutls function
                 sportsApp.printFacilitiesResultsonPage();
+
+                for(let sportsFacility of sportsApp.sportsFacilities) {
+                    let latitude = typeof sportsFacility.geometry.coordinates[1] === "number" ? sportsFacility.geometry.coordinates[1] : sportsFacility.geometry.coordinates[0][1];
+                    let longitude = typeof sportsFacility.geometry.coordinates[0] === "number" ? sportsFacility.geometry.coordinates[0] : sportsFacility.geometry.coordinates[0][0];
+                    sportsApp.getSportsFacilitiesMissingAddresses(latitude, longitude);
+                }
+            // sportsApp.getSportsFacilitiesMissingAddresses(43.653752, -79.383302); ***
         })
         .fail(() => {
             // Do something to handle error. Display message on page to let user know no facilities were returned
