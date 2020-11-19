@@ -22,6 +22,7 @@ const sportsApp = {};
 //variable to store user's location (geolocation)
 sportsApp.userLongitude;
 sportsApp.userLatitude;
+
 //Empty array to contain all the sports - for potential search/autocomplete
 sportsApp.sportsResultsArray = [];
 
@@ -48,7 +49,6 @@ $('#city').on('click', function() {
     sportsApp.staticCoordinatesLong = $(this).data('long');
     sportsApp.staticCoordinatesLat = $(this).data('lat');
 })
-
 
 
 
@@ -89,6 +89,7 @@ sportsApp.getSportsFacilities = (id) => {
             method: 'GET',
             dataType: 'json',
             data: {
+
                 sports: id,
                 origin: '-79.383302,43.653752', // T.O. Downtown
                 radius: '20',
@@ -106,6 +107,7 @@ sportsApp.getSportsFacilities = (id) => {
         .fail(() => {
             // Do something to handle error. Display message on page to let user know no facilities were returned
         });
+
     }
 
 
