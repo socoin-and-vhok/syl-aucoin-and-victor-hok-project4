@@ -20,21 +20,24 @@
 // Implement different UX scheme for if user chooses to share location vs. not (likely fix above issue)
 // e.g. form submission for non-shared location UX scheme
 
+//STRETCH
+// On click of map, a maps directions page pops up?
 
-const sportsApp = {};
+
+const app = {};
 //variable to store user's location (geolocation)
-sportsApp.userLongitude;
-sportsApp.userLatitude;
+app.userLongitude;
+app.userLatitude;
 
 //Empty array to contain all the sports - for potential search/autocomplete
-sportsApp.sportsResultsArray = [];
+// app.sportsArray = [];
 
 //will store all our sport
-sportsApp.sports;
-sportsApp.sportId;
-sportsApp.sportFacilities;
-sportsApp.sportsFacilitiesMissingAddresses = [];
-sportsApp.reverseLocationPromises = [];
+app.sports;
+app.sportId;
+app.facilities;
+app.facilitiesMissingAddresses = [];
+app.reverseLocationPromises = [];
 
 
 
@@ -43,16 +46,16 @@ sportsApp.reverseLocationPromises = [];
 // Button Event Listener: This event listener is applied to all the HTML sports activity buttons.
 $('.main__ul-sports-btn').on('click', 'button', function() {
     // Upon clicking the button, retrieve its inline html value and assign to sportsValue
-    sportsApp.sportId = sportsApp.getSportId($(this).data('slug'));
+    app.sportId = app.getSportId($(this).data('slug'));
     //Call the function to get the facilities for the chose sport
-    sportsApp.getSportsFacilities(sportsApp.sportId);
+    app.getFacilities(app.sportId);
 });
 
 //CITY Event listener to be used to get the location from a static button
 //Purpose - Get the coordinates of a chosen city (when users wish to not share live location)
 $('#city').on('click', function() {
-    sportsApp.staticCoordinatesLong = $(this).data('long');
-    sportsApp.staticCoordinatesLat = $(this).data('lat');
+    app.staticCoordinatesLong = $(this).data('long');
+    app.staticCoordinatesLat = $(this).data('lat');
 })
 
 
@@ -62,9 +65,9 @@ $('#city').on('click', function() {
 //*****FUNCTIONS *********/
 
 //Function to retreive the ID from selected sport (using the slug value)
-sportsApp.getSportId = (slug) => {
+app.getSportId = (slug) => {
     // finds the id in the array using the slug
-    for(let sport of sportsApp.sports) {
+    for(let sport of app.sports) {
         if(sport.attributes.slug === slug) 
         return sport.id;
     }
@@ -72,20 +75,20 @@ sportsApp.getSportId = (slug) => {
 
 // Purpose: Sport's name --> Sport's ID number
 // AJAX request to retrieve the sport object using the sport's name (ie button value), access its id property, and assign the value to sportsId.
-sportsApp.getAllSports = () => {
+app.getAllSports = () => {
     $.ajax({
         url: `https://sports.api.decathlon.com/sports`,
         method: 'GET',
         dataType: 'json',
     }).then( (sportsActivitySuccessfulResponse) => {
-        sportsApp.sports = sportsActivitySuccessfulResponse.data;
+        app.sports = sportsActivitySuccessfulResponse.data;
     })
     .fail(() => {
         // Do something to handle error.
     });
 }
 
-sportsApp.getSportsFacilitiesMissingAddresses = (latitude, longitude) => {
+app.getFacilitiesMissingAddresses = (latitude, longitude) => {
     return $.ajax({
         url: 'http://www.mapquestapi.com/geocoding/v1/reverse',
         method: 'GET',
@@ -97,7 +100,7 @@ sportsApp.getSportsFacilitiesMissingAddresses = (latitude, longitude) => {
     });
 };
 
-sportsApp.getSportsFacilities = (id) => {
+app.getFacilities = (id) => {
  // Purpose: Sport's ID number --> Array of sport facilities
         // AJAX request to retrieve the sports places object using the sport id, access its features property (array of sports facilities).
         $.ajax({
@@ -107,30 +110,30 @@ sportsApp.getSportsFacilities = (id) => {
             data: {
                 sports: id,
                 // origin: '-79.383302,43.653752', // T.O. Downtown
-                origin: `${sportsApp.userLongitude}, ${sportsApp.userLatitude}`,
+                origin: `${app.userLongitude}, ${app.userLatitude}`,
                 radius: '20',
                 limit: 3
             }
         })
-        .then((sportsFacilitiesSuccessfulResponse) => {
-            sportsApp.sportsFacilities = sportsFacilitiesSuccessfulResponse.data.features;
-                console.log(sportsApp.sportsFacilities);
+        .then((facilitiesSuccessfulResponse) => {
+            app.facilities = facilitiesSuccessfulResponse.data.features;
+                console.log(app.facilities);
                 //empty the page before we print more results
                 $('.main__ul-sports-location').empty();
-                sportsApp.reverseLocationPromises = [];
+                app.reverseLocationPromises = [];
 
-                for(let sportsFacility of sportsApp.sportsFacilities) {
+                for(let facility of app.facilities) {
                     // sportsFacility.geometry.coordinates is either going to be an array that contains either 1) lat, lng as elements OR an array or 2) [lat, lng] arrays.
                     // For 1) The lat, lng are assigned directly to the variables, else for 2) It stores the lat, lng of the first array that appears.
-                    let latitude = typeof sportsFacility.geometry.coordinates[1] === "number" ? sportsFacility.geometry.coordinates[1] : sportsFacility.geometry.coordinates[0][1];
-                    let longitude = typeof sportsFacility.geometry.coordinates[0] === "number" ? sportsFacility.geometry.coordinates[0] : sportsFacility.geometry.coordinates[0][0];
+                    let latitude = typeof facility.geometry.coordinates[1] === "number" ? facility.geometry.coordinates[1] : facility.geometry.coordinates[0][1];
+                    let longitude = typeof facility.geometry.coordinates[0] === "number" ? facility.geometry.coordinates[0] : facility.geometry.coordinates[0][0];
                     // Pushes the promises of the reverse geolocation lookups for MapQuest API in the same order as the Decathlon sports places API.
-                    sportsApp.reverseLocationPromises.push(sportsApp.getSportsFacilitiesMissingAddresses(latitude, longitude));
+                    app.reverseLocationPromises.push(app.getFacilitiesMissingAddresses(latitude, longitude));
                 }
                 //call the print resutls function
-                sportsApp.printFacilitiesResultsonPage();
-            // sportsApp.getSportsFacilitiesMissingAddresses(43.653752, -79.383302); ***
-            console.log(sportsApp.reverseLocationPromises);
+                app.printFacilitiesResultsonPage();
+            // app.getFacilitiesMissingAddresses(43.653752, -79.383302); ***
+            console.log(app.reverseLocationPromises);
         })
         .fail(() => {
             // Do something to handle error. Display message on page to let user know no facilities were returned
@@ -141,20 +144,20 @@ sportsApp.getSportsFacilities = (id) => {
 
 
 //function that gets the coordinates of the location - to be passed inside of an event listener
-sportsApp.getLocation = () => {
+app.getLocation = () => {
     navigator.geolocation.getCurrentPosition(
         //If the user opts to share their locations and a place is returned:
         function(place){ 
-            sportsApp.userLatitude = (place.coords.latitude);
-            sportsApp.userLongitude = (place.coords.longitude);
+            app.userLatitude = (place.coords.latitude);
+            app.userLongitude = (place.coords.longitude);
         },
         //If the user blockes their current location:
         function() {
             $('.main__ul-city-btn').toggleClass('ul-city-btn--active')
             .on('click', 'button', function(){
-                        sportsApp.userLatitude = $(this).data('lat');
-                        sportsApp.userLongitude = $(this).data('long');
-                        console.log(sportsApp.userLatitude);
+                        app.userLatitude = $(this).data('lat');
+                        app.userLongitude = $(this).data('long');
+                        console.log(app.userLatitude);
                     });
             
         }
@@ -163,29 +166,29 @@ sportsApp.getLocation = () => {
 
 
 //function to display info on page
-sportsApp.printFacilitiesResultsonPage = () => {
-    $.when(...sportsApp.reverseLocationPromises)
+app.printFacilitiesResultsonPage = () => {
+    $.when(...app.reverseLocationPromises)
         .then(function(...missingAddressesResponse) {
         console.log(missingAddressesResponse);
 
         //Maps only the address property of the reverseLocationResponse array to a new array.
-        sportsApp.sportsFacilitiesMissingAddresses = missingAddressesResponse.map( address => address[0].results[0].locations[0] );
+        app.facilitiesMissingAddresses = missingAddressesResponse.map( address => address[0].results[0].locations[0] );
 
-        console.log(sportsApp.sportsFacilitiesMissingAddresses);
+        console.log(app.facilitiesMissingAddresses);
         
         //save city and street address so that we can print them on to the page!
-        // sportsApp.facilityMissingStreet = sportsApp.sportsFacilitiesMissingAddresses.street;
-        // sportsApp.facilityMissingCity = sportsApp.sportsFacilitiesMissingAddresses.adminArea5;
+        // app.facilityMissingStreet = app.facilitiesMissingAddresses.street;
+        // app.facilityMissingCity = app.facilitiesMissingAddresses.adminArea5;
 
         // temporary loop for testing
-        sportsApp.sportsFacilitiesMissingAddresses.forEach((location) => {
+        app.facilitiesMissingAddresses.forEach((location) => {
             console.log(location.street);
             console.log(location.adminArea5);
         });
 
-        for (let i = 0; i < sportsApp.sportsFacilities.length; i++) {
-            sportsApp.facilityName = sportsApp.sportsFacilities[i].properties.name;
-            sportsApp.facilityAddress = sportsApp.sportsFacilities[i].properties.address_components;
+        for (let i = 0; i < app.facilities.length; i++) {
+            app.facilityName = app.facilities[i].properties.name;
+            app.facilityAddress = app.facilities[i].properties.address_components;
         
             //print each on page! 
             //!!!!!! ERROR HANDLING if address and contact fields are null - get only ones with address? 
@@ -193,19 +196,19 @@ sportsApp.printFacilitiesResultsonPage = () => {
     
                 `<li>
                     <div class="main__div-address">
-                        <h2>${sportsApp.facilityName}</h2>
-                        <address>${sportsApp.facilityAddress.address !== null ? sportsApp.facilityAddress.address : sportsApp.sportsFacilitiesMissingAddresses[i].street}</address>
-                        <address>${sportsApp.facilityAddress.city !== null ? sportsApp.facilityAddress.city : sportsApp.sportsFacilitiesMissingAddresses[i].adminArea5}</address>
+                        <h2>${app.facilityName}</h2>
+                        <address>${app.facilityAddress.address !== null ? app.facilityAddress.address : app.facilitiesMissingAddresses[i].street}</address>
+                        <address>${app.facilityAddress.city !== null ? app.facilityAddress.city : app.facilitiesMissingAddresses[i].adminArea5}</address>
                     </div>
                     <div class="main__div-map">
-                        <img src="${sportsApp.sportsFacilitiesMissingAddresses[i].mapUrl.replace("marker-sm-50318A-1&scalebar=true&zoom=15", "marker-sm-ff6700-&scalebar=false&zoom=14")}" alt="a map">
+                        <img src="${app.facilitiesMissingAddresses[i].mapUrl.replace("marker-sm-50318A-1&scalebar=true&zoom=15", "marker-sm-ff6700-&scalebar=false&zoom=14")}" alt="a map">
                     </div>
                 </li>`
             )
         }
 
-        // console.log(sportsApp.facilityMissingStreet);
-        // console.log(sportsApp.facilityMissingCity);
+        // console.log(app.facilityMissingStreet);
+        // console.log(app.facilityMissingCity);
         })
         .fail(function(noAddresses) {
 
@@ -214,9 +217,9 @@ sportsApp.printFacilitiesResultsonPage = () => {
 
 
 //********initialize!****** 
-sportsApp.init = () => {
-    sportsApp.getLocation();
-    sportsApp.getAllSports();
+app.init = () => {
+    app.getLocation();
+    app.getAllSports();
     console.log('ready!');
 }
 
@@ -227,5 +230,5 @@ sportsApp.init = () => {
 
 // ******* DOCUMENT READY ******* 
 $(function() {
-    sportsApp.init();
+    app.init();
 });
