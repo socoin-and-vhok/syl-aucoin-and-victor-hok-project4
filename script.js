@@ -43,23 +43,13 @@ app.reverseLocationPromises = [];
 
 // ******* EVENT LISTENERS ******* 
 
-// Button Event Listener: This event listener is applied to all the HTML sports activity buttons.
-$('.main__ul-sports-btn').on('click', 'button', function() {
-    // Upon clicking the button, retrieve its inline html value and assign to sportsValue
-    app.sportId = app.getSportId($(this).data('slug'));
-    //Call the function to get the facilities for the chose sport
-    app.getFacilities(app.sportId);
-});
-
-//CITY Event listener to be used to get the location from a static button
-//Purpose - Get the coordinates of a chosen city (when users wish to not share live location)
-$('#city').on('click', function() {
-    app.staticCoordinatesLong = $(this).data('long');
-    app.staticCoordinatesLat = $(this).data('lat');
-})
-
-
-
+// // Button Event Listener: This event listener is applied to all the HTML sports activity buttons.
+// $('.main__ul-sports-btn').on('click', 'button', function() {
+//     // Upon clicking the button, retrieve its inline html value and assign to sportsValue
+//     app.sportId = app.getSportId($(this).data('slug'));
+//     //Call the function to get the facilities for the chose sport
+//     app.getFacilities(app.sportId);
+// });
 
 
 //*****FUNCTIONS *********/
@@ -151,18 +141,34 @@ app.getLocation = () => {
             app.userLatitude = (place.coords.latitude);
             app.userLongitude = (place.coords.longitude);
         },
+        
+    //CITY Event listener to be used to get the location from a static button
+    //Purpose - Get the coordinates of a chosen city (when users wish to not share live location)
         //If the user blockes their current location:
         function() {
-            $('.main__ul-city-btn').toggleClass('ul-city-btn--active')
-            .on('click', 'button', function(){
-                        app.userLatitude = $(this).data('lat');
-                        app.userLongitude = $(this).data('long');
-                        console.log(app.userLatitude);
+            $('.main__ul-sports-btn').hide();
+
+            $('.main__form')
+                    .toggleClass('form--active')
+                    .on('submit', function(e){
+                        e.preventDefault();
+                        app.userLongLat = $('input[name=city]:checked').val();
+                        app.sportId = app.getSportId($('input[name=sport]:checked').val());
+                        console.log(app.sportId);
+                        console.log(app.userLongLat);
                     });
             
         }
     )
 }
+
+// Button Event Listener: This event listener is applied to all the HTML sports activity buttons.
+$('.main__ul-sports-btn').on('click', 'button', function() {
+    // Upon clicking the button, retrieve its inline html value and assign to sportsValue
+    app.sportId = app.getSportId($(this).data('slug'));
+    //Call the function to get the facilities for the chose sport
+    app.getFacilities(app.sportId);
+});
 
 
 //function to display info on page
