@@ -5,17 +5,20 @@
 
 
 //TO DO List - in no particular order
-//Make getFacilities dynamic based on location chosen/or geolocation
-//MapQuest AJAX call, remove .then() and fail(), push promises onto an array, and then spread the array onto when() and do something with then() and fail() collectively
-//Update the Hero image to the relevant sport
-//Define a function to insert in the else statement for the getGeolocation function
-    //This function will:
-        // make the city buttons appear
-        // on click of a button, set the location to the chosen city coordinates
-//Get mini maps for each result (Stretch Goal)
-//Message somewhere that indicates that this apop only works in canada!!!
-//General formating and styling of results + page
+/**
+ * Error Handling:
+ * -Selected sport but not facility
+ * 
+ * 
+ */
 
+//General formating and styling of results + page
+/**
+ * Show active button
+ */
+//Bug: Clicking sport before city requires click on sport again to reveal locations
+// Implement different UX scheme for if user chooses to share location vs. not (likely fix above issue)
+// e.g. form submission for non-shared location UX scheme
 
 
 const sportsApp = {};
@@ -30,14 +33,15 @@ sportsApp.sportsResultsArray = [];
 sportsApp.sports;
 sportsApp.sportId;
 sportsApp.sportFacilities;
-sportsApp.sportsFacilitiesMissingAddresses;
+sportsApp.sportsFacilitiesMissingAddresses = [];
+sportsApp.reverseLocationPromises = [];
 
 
 
 // ******* EVENT LISTENERS ******* 
 
 // Button Event Listener: This event listener is applied to all the HTML sports activity buttons.
-$('button').on('click', function() {
+$('.main__ul-sports-btn').on('click', 'button', function() {
     // Upon clicking the button, retrieve its inline html value and assign to sportsValue
     sportsApp.sportId = sportsApp.getSportId($(this).data('slug'));
     //Call the function to get the facilities for the chose sport
@@ -82,18 +86,14 @@ sportsApp.getAllSports = () => {
 }
 
 sportsApp.getSportsFacilitiesMissingAddresses = (latitude, longitude) => {
-    $.ajax({
+    return $.ajax({
         url: 'http://www.mapquestapi.com/geocoding/v1/reverse',
         method: 'GET',
         dataType: 'json',
         data: {
-            key: 'aq0dtJQmXhGHcCstNhRuyNo5OnYoZM0s',
-            location: `${latitude},${longitude}`
+            key: 'ODaFMgthq8yJftHwGItv3AjG0fdnOHgp',
+            location: `${latitude},${longitude}`,
         }
-    }).then( (successfulAddressResponse) => {
-        console.log(successfulAddressResponse);
-    }).fail( () => {
-
     });
 };
 
@@ -106,9 +106,10 @@ sportsApp.getSportsFacilities = (id) => {
             dataType: 'json',
             data: {
                 sports: id,
-                origin: '-79.383302,43.653752', // T.O. Downtown
+                // origin: '-79.383302,43.653752', // T.O. Downtown
+                origin: `${sportsApp.userLongitude}, ${sportsApp.userLatitude}`,
                 radius: '20',
-                limit: 200
+                limit: 3
             }
         })
         .then((sportsFacilitiesSuccessfulResponse) => {
@@ -116,18 +117,24 @@ sportsApp.getSportsFacilities = (id) => {
                 console.log(sportsApp.sportsFacilities);
                 //empty the page before we print more results
                 $('.main__ul-sports-location').empty();
-                //call the print resutls function
-                sportsApp.printFacilitiesResultsonPage();
+                sportsApp.reverseLocationPromises = [];
 
                 for(let sportsFacility of sportsApp.sportsFacilities) {
+                    // sportsFacility.geometry.coordinates is either going to be an array that contains either 1) lat, lng as elements OR an array or 2) [lat, lng] arrays.
+                    // For 1) The lat, lng are assigned directly to the variables, else for 2) It stores the lat, lng of the first array that appears.
                     let latitude = typeof sportsFacility.geometry.coordinates[1] === "number" ? sportsFacility.geometry.coordinates[1] : sportsFacility.geometry.coordinates[0][1];
                     let longitude = typeof sportsFacility.geometry.coordinates[0] === "number" ? sportsFacility.geometry.coordinates[0] : sportsFacility.geometry.coordinates[0][0];
-                    sportsApp.getSportsFacilitiesMissingAddresses(latitude, longitude);
+                    // Pushes the promises of the reverse geolocation lookups for MapQuest API in the same order as the Decathlon sports places API.
+                    sportsApp.reverseLocationPromises.push(sportsApp.getSportsFacilitiesMissingAddresses(latitude, longitude));
                 }
+                //call the print resutls function
+                sportsApp.printFacilitiesResultsonPage();
             // sportsApp.getSportsFacilitiesMissingAddresses(43.653752, -79.383302); ***
+            console.log(sportsApp.reverseLocationPromises);
         })
         .fail(() => {
             // Do something to handle error. Display message on page to let user know no facilities were returned
+            console.log('no facilities');
         });
 
     }
@@ -135,43 +142,75 @@ sportsApp.getSportsFacilities = (id) => {
 
 //function that gets the coordinates of the location - to be passed inside of an event listener
 sportsApp.getLocation = () => {
-    if(navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(function(place){ 
-            sportsApp.userLongitude = (place.coords.latitude);
-            sportsApp.userLatitude = (place.coords.longitude);
-            console.log(sportsApp.userLongitude, sportsApp.userLatitude);
-        })
-    } //else - if we dont get the location from user - maybe the city buttons show up on the page and they can choose one? OR a message!
+    navigator.geolocation.getCurrentPosition(
+        //If the user opts to share their locations and a place is returned:
+        function(place){ 
+            sportsApp.userLatitude = (place.coords.latitude);
+            sportsApp.userLongitude = (place.coords.longitude);
+        },
+        //If the user blockes their current location:
+        function() {
+            $('.main__ul-city-btn').toggleClass('ul-city-btn--active')
+            .on('click', 'button', function(){
+                        sportsApp.userLatitude = $(this).data('lat');
+                        sportsApp.userLongitude = $(this).data('long');
+                        console.log(sportsApp.userLatitude);
+                    });
+            
+        }
+    )
 }
 
 
 //function to display info on page
 sportsApp.printFacilitiesResultsonPage = () => {
-    for (let i = 0; i <= 20; i++) {
-        sportsApp.facilityName = sportsApp.sportsFacilities[i].properties.name;
-        sportsApp.facilityAddress = sportsApp.sportsFacilities[i].properties.address_components;
-        sportsApp.facilityContact = sportsApp.sportsFacilities[i].properties.contact_details;
+    $.when(...sportsApp.reverseLocationPromises)
+        .then(function(...missingAddressesResponse) {
+        console.log(missingAddressesResponse);
+
+        //Maps only the address property of the reverseLocationResponse array to a new array.
+        sportsApp.sportsFacilitiesMissingAddresses = missingAddressesResponse.map( address => address[0].results[0].locations[0] );
+
+        console.log(sportsApp.sportsFacilitiesMissingAddresses);
+        
+        //save city and street address so that we can print them on to the page!
+        // sportsApp.facilityMissingStreet = sportsApp.sportsFacilitiesMissingAddresses.street;
+        // sportsApp.facilityMissingCity = sportsApp.sportsFacilitiesMissingAddresses.adminArea5;
+
+        // temporary loop for testing
+        sportsApp.sportsFacilitiesMissingAddresses.forEach((location) => {
+            console.log(location.street);
+            console.log(location.adminArea5);
+        });
+
+        for (let i = 0; i < sportsApp.sportsFacilities.length; i++) {
+            sportsApp.facilityName = sportsApp.sportsFacilities[i].properties.name;
+            sportsApp.facilityAddress = sportsApp.sportsFacilities[i].properties.address_components;
+        
+            //print each on page! 
+            //!!!!!! ERROR HANDLING if address and contact fields are null - get only ones with address? 
+            $('.main__ul-sports-location').append(
     
-        //print each on page! 
-        //!!!!!! ERROR HANDLING if address and contact fields are null - get only ones with address? 
-        $('.main__ul-sports-location').append(
+                `<li>
+                    <div class="main__div-address">
+                        <h2>${sportsApp.facilityName}</h2>
+                        <address>${sportsApp.facilityAddress.address !== null ? sportsApp.facilityAddress.address : sportsApp.sportsFacilitiesMissingAddresses[i].street}</address>
+                        <address>${sportsApp.facilityAddress.city !== null ? sportsApp.facilityAddress.city : sportsApp.sportsFacilitiesMissingAddresses[i].adminArea5}</address>
+                    </div>
+                    <div class="main__div-map">
+                        <img src="${sportsApp.sportsFacilitiesMissingAddresses[i].mapUrl.replace("marker-sm-50318A-1&scalebar=true&zoom=15", "marker-sm-ff6700-&scalebar=false&zoom=14")}" alt="a map">
+                    </div>
+                </li>`
+            )
+        }
 
-            `<li>
-                <div class="main__div-address">
-                    <h2>${sportsApp.facilityName}</h2>
-                    <address>${sportsApp.facilityAddress.address}</address>
-                    <address>${sportsApp.facilityAddress.city}</address>
-                    <address>${sportsApp.facilityContact.phone}</address>
-                </div>
-                <div class="main__div-map">
-                    <img src="https://placebear.com/100/100" alt="a map">
-                </div>
-            </li>`
-        )
-    }
+        // console.log(sportsApp.facilityMissingStreet);
+        // console.log(sportsApp.facilityMissingCity);
+        })
+        .fail(function(noAddresses) {
+
+        });
 }
-
-
 
 
 //********initialize!****** 
