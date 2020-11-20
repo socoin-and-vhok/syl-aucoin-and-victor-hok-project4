@@ -17,6 +17,17 @@ main {
     border: 1px solid black; // Visualization only. To be deleted.
 }
 
+//CITY BUTTONS
+.main__ul-city-btn {
+    display: none;
+}
+
+.ul-city-btn--active {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid black; // Visualization only. To be deleted.
+}
+
 // ADDRESSES AND MAP PULLED FROM API
 .main__ul-sports-location li {
     display: flex;
