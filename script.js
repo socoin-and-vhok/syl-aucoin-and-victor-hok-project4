@@ -68,8 +68,8 @@ app.getAllSports = () => {
     }).then( (sportsActivitySuccessfulResponse) => {
         app.sports = sportsActivitySuccessfulResponse.data;
     })
-    .fail(() => {
-        // Do something to handle error.
+    .fail((sportsActivityFailedResponse) => {
+        $('.main__ul-sports-location').append(`<p>Oops! It seems that we're having some technical issues. ${sportsActivityFailedResponse.status} ${sportsActivityFailedResponse.statusText}</p>`)
     });
 }
 
@@ -102,9 +102,14 @@ app.getFacilities = (id, location) => {
             console.log(app.facilities);
             //empty the page before we print more results
             $('.main__ul-sports-location').empty();
+            //check if there are facilities
+            //If there aren't any - print a message letting the user know.
+            if (app.facilities.length <= 0) {
+                $('.main__ul-sports-location').append(`<p>We're sorry, no facilities were found within a 20km radius for the selected sport.</p>`)
+            } else {
             //declare a variable to store our array or returned promises
             app.reverseLocationPromises = [];
-            //GEt coordinates for each facility
+            //Get coordinates for each facility so that we can use those coordinates to get missing addresses
             for(let facility of app.facilities) {
                 // sportsFacility.geometry.coordinates is either going to be an array that contains either 1) lat, lng as elements OR an array or 2) [lat, lng] arrays.
                 // For 1) The lat, lng are assigned directly to the variables, else for 2) It stores the lat, lng of the first array that appears.
@@ -113,13 +118,13 @@ app.getFacilities = (id, location) => {
                 // Pushes the promises of the reverse geolocation lookups for MapQuest API in the same order as the Decathlon sports places API.
                 app.reverseLocationPromises.push(app.getFacilitiesMissingAddresses(latitude, longitude));
             }
-            //call the print resutls function
+            //call the print results function
             app.printFacilitiesResultsonPage();
+            }
         console.log(app.reverseLocationPromises);
     })
-    .fail(() => {
-        // Do something to handle error. Display message on page to let user know no facilities were returned
-        console.log('no facilities');
+    .fail((facilitiesFail) => {
+        $('.main__ul-sports-location').append(`<p>Oops! It seems that we've encountered an error retreiving your results. ${facilitiesFail.status} ${facilitiesFail.statusText}</p>`)
     });
 }
 
@@ -154,7 +159,7 @@ app.getLocation = () => {
             $('.main__ul-sports-btn').hide();
 
             $('.main__form')
-
+                
                 .toggleClass('form--active')
                 .on('submit', function(e){
                     e.preventDefault();
@@ -206,7 +211,7 @@ app.printFacilitiesResultsonPage = () => {
         }
     })
     .fail(function(noAddresses) {
-        //Do something?
+        //Do something? 
     });
 }
 

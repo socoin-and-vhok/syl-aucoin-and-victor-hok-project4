@@ -1,6 +1,7 @@
 // HIGH LEVEL CONTAINERS
 .wrapper {
     width: 75%;
+    max-width: 1280px;
     margin: 0 auto;
 }
 
@@ -30,7 +31,8 @@ main {
 // ADDRESSES AND MAP PULLED FROM API
 .main__ul-sports-location li {
     display: flex;
-    justify-content: space-evenly;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
     margin-top: 20px;
     border: 1px solid black; // Visualization only. To be deleted.
