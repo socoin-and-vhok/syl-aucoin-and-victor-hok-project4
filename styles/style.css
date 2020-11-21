@@ -284,17 +284,12 @@ main {
   border: 1px solid black;
 }
 
-.main__ul-city-btn {
+.main__form {
   display: none;
 }
 
-.ul-city-btn--active {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+.form--active {
+  display: block;
   border: 1px solid black;
 }
 

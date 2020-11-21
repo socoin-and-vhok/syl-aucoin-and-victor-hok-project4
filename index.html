@@ -8,9 +8,13 @@
 </head>
 <body>
     <header>
+
         <h1>Sports App</h1>
+
     </header>
+
     <main>
+        
         <div class="wrapper">
 
             <ul class="main__ul-sports-btn">
@@ -34,117 +38,69 @@
                 </li>
             </ul>
 
-            <!-- Buttons to contain coordinates of static cities! IF we go with geolocation! -->
-            <!-- <ul class="main__ul-city-btn">
+
+
+            <form action="" class="main__form">
+
+                <fieldset>
+
+                    <input type="radio" id="toronto" name="city" value="-79.384146, 43.656123" required>
+                    <label for="toronto">Toronto</label>
+                    
+                    <input type="radio" id="ottawa" name="city" value="-75.697452, 45.413122">
+                    <label for="ottawa">Ottawa</label>
+                    
+                    <input type="radio" id="montreal" name="city" value="-73.571203,45.504578">
+                    <label for="montreal">Montreal</label>
+                    
+                    <input type="radio" id="vancouver" name="city" value="-123.120748, 43.656123">
+                    <label for="vancouver">Vancouver</label>
+                    
+                    <input type="radio" id="calgary" name="city" value="-114.059279,51.048079">
+                    <label for="calgary">Calgary</label>
+
+                </fieldset>
             
-                <li>
-                    <button data-long="-79.384146" data-lat="43.656123">Toronto</button>
-                </li>
-                <li>
-                    <button data-long="-75.697452" data-lat="45.413122">Ottawa</button>
-                </li>
-                <li>
-                    <button data-long="-73.571203" data-lat="45.504578">Montreal<button>
-                </li>
-                <li>
-                    <button data-long="-123.120748" data-lat="43.656123">Vancouver<button>
-                </li>
-                <li>
-                    <button data-long="-114.059279" data-lat="51.048079">Calgary</button>
-                </li>
+                <fieldset>
+                    
+                    <input type="radio" id="ice-hockey" name="sport"    value="ice-hockey" required>
+                    <label for="ice-hockey">Ice Hockey</label>
+
+                    <input type="radio" id="basketball" name="sport"    value="basketball">
+                    <label for="basketball">Basketball</label>
+
+                    <input type="radio" id="swimming" name="sport" value="swimming">
+                    <label for="swimming">Swimming</label>
+                    
+                    <input type="radio" id="soccer" name="sport" value="soccer">
+                    <label for="soccer">Soccer</label>
+
+                    <input type="radio" id="tennis" name="sport" value="tennis">
+                    <label for="tennis">Tennis</label>
+
+                    <input type="radio" id="boxing" name="sport" value="boxing">
+                    <label for="boxing">Boxing</label>
+                    
+                </fieldset>
+
+                <button type="submit" value="Submit">Submit</button>
             
-            </ul> -->
-
-
-        <form action="" class="main__form form--active">
-
-            <fieldset>
-
-                <input type="radio" id="toronto" name="city" value="-79.384146, 43.656123" required>
-                <label for="toronto">Toronto</label>
-                
-                <input type="radio" id="ottawa" name="city" value="-75.697452, 45.413122">
-                <label for="ottawa">Ottawa</label>
-                
-                <input type="radio" id="montreal" name="city" value="-73.571203, 45.504578">
-                <label for="montreal">Montreal</label>
-                
-                <input type="radio" id="vancouver" name="city" value="-123.120748, 43.656123">
-                <label for="vancouver">Vancouver</label>
-                
-                <input type="radio" id="calgary" name="city" value="-114.059279, 51.048079">
-                <label for="calgary">Calgary</label>
-
-            </fieldset>
-            
-            <fieldset>
-                
-                <input type="radio" id="ice-hockey" name="sport" value="ice-hockey" required>
-                <label for="ice-hockey">Ice Hockey</label>
-
-                <input type="radio" id="basketball" name="sport" value="basketball">
-                <label for="basketball">Basketball</label>
-
-                <input type="radio" id="swimming" name="sport" value="swimming">
-                <label for="swimming">Swimming</label>
-                
-                <input type="radio" id="soccer" name="sport" value="soccer">
-                <label for="soccer">Soccer</label>
-
-                <input type="radio" id="tennis" name="sport" value="tennis">
-                <label for="tennis">Tennis</label>
-
-                <input type="radio" id="boxing" name="sport" value="boxing">
-                <label for="boxing">Boxing</label>
-        
-            </fieldset>
-
-            <button type="submit" value="Submit">Submit</button>
-            
-        </form>
+            </form>
 
             <ul class="main__ul-sports-location">
-                <!-- EXAMPLES ONLY: To be deleted x3. -->
-                <!-- <li>
-                    <div class="main__div-address">
-                        <h2>York Mills Arena</h2>
-                        <address>2539 Bayview Avenue</address>
-                        <address>Toronto, Ontario</address>
-                        <address>416-395-7844</address>
-                    </div>
-                    <div class="main__div-map">
-                        <img src="https://placebear.com/100/100" alt="a map">
-                    </div>
-                </li>
-                <li>
-                    <div class="main__div-address">
-                        <h2>York Mills Arena</h2>
-                        <address>2539 Bayview Avenue</address>
-                        <address>Toronto, Ontario</address>
-                        <address>416-395-7844</address>
-                    </div>
-                    <div class="main__div-map">
-                        <img src="https://placebear.com/100/100" alt="a map">
-                    </div>
-                </li>
-                <li>
-                    <div class="main__div-address">
-                        <h2>York Mills Arena</h2>
-                        <address>2539 Bayview Avenue</address>
-                        <address>Toronto, Ontario</address>
-                        <address>416-395-7844</address>
-                    </div>
-                    <div class="main__div-map">
-                        <img src="https://placebear.com/100/100" alt="a map">
-                    </div>
-                </li> -->
-                <!-- INSERT: li with name, address, phone number, email, website + map -->
+                <!-- Results will print here -->
             </ul>
+
         </div>
+
     </main>
+
     <footer>
+
         <p>Copywrite <a href="#">Syl Auocoin</a> & <a href="#">Victor Hok</a></p>
+
     </footer>
+
     <script src='https://code.jquery.com/jquery-3.5.1.js' integrity='sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc='
         crossorigin='anonymous'></script>
     <script src="./script.js"></script>

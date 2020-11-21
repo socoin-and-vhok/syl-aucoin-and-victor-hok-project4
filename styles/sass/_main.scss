@@ -17,14 +17,13 @@ main {
     border: 1px solid black; // Visualization only. To be deleted.
 }
 
-//CITY BUTTONS
-.main__ul-city-btn {
+//FORM
+.main__form {
     display: none;
 }
 
-.ul-city-btn--active {
-    display: flex;
-    justify-content: space-between;
+.form--active {
+    display: block;
     border: 1px solid black; // Visualization only. To be deleted.
 }
 
