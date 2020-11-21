@@ -8,32 +8,114 @@
 main {
     min-height: 50vh;
     padding: 20px 0;
-    border: 1px solid black; // Visualization only. To be deleted.
+    background-color: $support-color;
+
+    p:first-of-type {
+        text-align:center;
+    }
 }
 
 // SPORTS SELECTION BUTTONS BAR
 .main__ul-sports-btn {
     display: flex;
     justify-content: space-between;
-    border: 1px solid black; // Visualization only. To be deleted.
+
+    button {
+        color: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 20px 10px;
+        background-color: $secondary-color;
+        border-radius: 50%;
+    }
 }
 
 //FORM
 .main__form {
     display: none;
+    text-align: center;
+    
+    fieldset {
+        border: none;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        margin: 0 -10px;
+
+        legend {
+            margin: 0 auto;
+        }
+    }
+    
+    fieldset.main__fieldset-icon {
+        width: 500px;
+        margin: 0 auto;
+    }
+
+    input {
+        position: absolute;
+        z-index: -10;
+    }
+
+    input:focus+label, input:checked+label {
+        background-color: $primary-color;
+    }
+    
+    label, button {
+        border-radius: 10px;
+        border: 1px solid black;
+        margin: 20px 10px;
+    }
+
+    label.main__label-icon {
+        border-radius: 50%;
+    }
+
+    label {
+        color: white;
+        background-color: $secondary-color;
+        padding: 20px;
+    }
+
+    label img {
+        height: $icon-size;
+        width: $icon-size;
+    }
+
+
+    button {
+        color: $secondary-color;
+        background-color: white;
+        padding: 20px 30px;
+
+        &:focus,
+        &:hover {
+            background-color: $primary-color;
+        }
+    }
 }
 
 .form--active {
     display: block;
-    border: 1px solid black; // Visualization only. To be deleted.
 }
 
 // ADDRESSES AND MAP PULLED FROM API
-.main__ul-sports-location li {
+.main__ul-sports-location {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-    border: 1px solid black; // Visualization only. To be deleted.
+    flex-wrap: wrap;
+
+    li {
+        display: flex;
+        flex: 1 0 calc(100%/3 - 20px);
+        min-width: $card-min-width;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        margin: 10px;
+        padding: 10px;
+        background-color: white;
+        border-radius: 10px;
+    }
 }
+

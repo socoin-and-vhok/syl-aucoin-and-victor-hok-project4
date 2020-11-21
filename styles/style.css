@@ -254,7 +254,7 @@ img {
   width: 100%;
 }
 
-* {
+*, fieldset, p, h1, h2 {
   margin: 0;
   padding: 0;
 }
@@ -268,11 +268,6 @@ a {
   color: inherit;
 }
 
-p, h1, h2 {
-  margin: 0;
-  padding: 0;
-}
-
 .wrapper {
   width: 75%;
   max-width: 1280px;
@@ -282,7 +277,11 @@ p, h1, h2 {
 main {
   min-height: 50vh;
   padding: 20px 0;
-  border: 1px solid black;
+  background-color: #d9e0e5;
+}
+
+main p:first-of-type {
+  text-align: center;
 }
 
 .main__ul-sports-btn {
@@ -292,34 +291,121 @@ main {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  border: 1px solid black;
+}
+
+.main__ul-sports-btn button {
+  color: white;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px 10px;
+  background-color: #161636;
+  border-radius: 50%;
 }
 
 .main__form {
   display: none;
+  text-align: center;
 }
 
-.form--active {
-  display: block;
-  border: 1px solid black;
-}
-
-.main__ul-sports-location li {
+.main__form fieldset {
+  border: none;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  margin-top: 20px;
+  margin: 0 -10px;
+}
+
+.main__form fieldset legend {
+  margin: 0 auto;
+}
+
+.main__form fieldset.main__fieldset-icon {
+  width: 500px;
+  margin: 0 auto;
+}
+
+.main__form input {
+  position: absolute;
+  z-index: -10;
+}
+
+.main__form input:focus + label, .main__form input:checked + label {
+  background-color: #FF7300;
+}
+
+.main__form label, .main__form button {
+  border-radius: 10px;
   border: 1px solid black;
+  margin: 20px 10px;
+}
+
+.main__form label.main__label-icon {
+  border-radius: 50%;
+}
+
+.main__form label {
+  color: white;
+  background-color: #161636;
+  padding: 20px;
+}
+
+.main__form label img {
+  height: 50px;
+  width: 50px;
+}
+
+.main__form button {
+  color: #161636;
+  background-color: white;
+  padding: 20px 30px;
+}
+
+.main__form button:focus, .main__form button:hover {
+  background-color: #FF7300;
+}
+
+.form--active {
+  display: block;
+}
+
+.main__ul-sports-location {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.main__ul-sports-location li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 calc(100%/3 - 20px);
+          flex: 1 0 calc(100%/3 - 20px);
+  min-width: 200px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 10px;
+  padding: 10px;
+  background-color: white;
+  border-radius: 10px;
 }
 
 header, footer {
@@ -349,4 +435,10 @@ header {
 
 header p {
   color: white;
+}
+
+footer {
+  color: white;
+  background-color: #161636;
+  padding: 20px 0;
 }
