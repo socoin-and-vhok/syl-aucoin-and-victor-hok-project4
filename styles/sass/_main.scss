@@ -1,6 +1,7 @@
 // HIGH LEVEL CONTAINERS
 .wrapper {
     width: 75%;
+    max-width: 1280px;
     margin: 0 auto;
 }
 
@@ -17,21 +18,21 @@ main {
     border: 1px solid black; // Visualization only. To be deleted.
 }
 
-//CITY BUTTONS
-.main__ul-city-btn {
+//FORM
+.main__form {
     display: none;
 }
 
-.ul-city-btn--active {
-    display: flex;
-    justify-content: space-between;
+.form--active {
+    display: block;
     border: 1px solid black; // Visualization only. To be deleted.
 }
 
 // ADDRESSES AND MAP PULLED FROM API
 .main__ul-sports-location li {
     display: flex;
-    justify-content: space-evenly;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
     margin-top: 20px;
     border: 1px solid black; // Visualization only. To be deleted.

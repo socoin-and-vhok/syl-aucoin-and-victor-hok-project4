@@ -3,7 +3,17 @@ header, footer {
 }
 
 header {
-    background-image: url('./../assets/soccer-ball-in-grass.jpg'); // Placeholder
+    background-image: linear-gradient(rgba(22, 22, 54, 0.85)), url(./../assets/soccer-ball-in-grass-bw.jpg);
+    // background-image: url('./../assets/soccer-ball-in-grass.jpg'); // Placeholder
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     background-size: cover;
+    background-position: center;
     height: 60vh;
+
+    p {
+        color: white;
+    }
 }
