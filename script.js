@@ -36,8 +36,6 @@ $('.main__ul-sports-btn').on('click', 'button', function() {
     //The function takes a single location paramter (a string composed of the longitude and the latitude)
     app.userLongLat = `${app.userLongitude},${app.userLatitude}`;
     app.getFacilities(app.sportId, app.userLongLat);
-
-    
 });
 
 

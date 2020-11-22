@@ -6,6 +6,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" href="./styles/style.css">
+    <link type="image/png" href="./assets/favicon.png" rel="icon">
     <title>Sport Spot</title>
 </head>
 <body>
@@ -20,6 +21,7 @@
         
         <div class="wrapper">
 
+            <!-- List of buttons for our user to select a sport from. The data-slug corresponds to the slug parameter in the Decathlon Sports API, allowing us to retreive a sport ID to then get facilities for that sport. -->
             <p>Choose a sport:</p>
 
             <ul class="main__ul-sports-btn">
@@ -33,7 +35,7 @@
                 </li>
 
                 <li>
-                    <button data-slug="boxing"><img src="./assets/baseball-icon.png" alt="baseball icon" title="Baseball"></button>
+                    <button data-slug="baseball"><img src="./assets/baseball-icon.png" alt="baseball icon" title="Baseball"></button>
                 </li>
 
                 <li>
@@ -49,7 +51,7 @@
                 </li>
 
                 <li>
-                    <button data-slug="boxing"><img src="./assets/yoga-icon.png" alt="yoga icon" title="Yoga"></button>
+                    <button data-slug="yoga"><img src="./assets/yoga-icon.png" alt="yoga icon" title="Yoga"></button>
                 </li>
 
                 <li>
@@ -58,12 +60,14 @@
 
             </ul>
 
-
+            <!-- If the user does not want to share their location, this form will appear on the page.
+            We will then grab the value (coordinates) from the city input, and the value (slug) from the sport input. 
+            The coordinates used for the cities are the city centers/downtown. -->
             <form action="" class="main__form">
 
-                <fieldset>
+                <fieldset class="main__fieldset-city">
 
-                    <legend>Choose your city:</legend>
+                    <legend>Choose your city:<br><span>Note: Selecting a city will return facilities closest to the downtown core. We highly recommend sharing your location to receive tailored results.</span></legend>
 
                     <input type="radio" id="toronto" name="city" value="-79.384146, 43.656123" required>
                     <label for="toronto">Toronto</label>
@@ -113,12 +117,13 @@
                 </fieldset>
 
                 <button type="submit" value="Submit">Submit</button>
+                <!-- A reset button is added to allow keyboard users to reset the form -->
                 <button type="reset" value="Reset">Reset</button>
 
             </form>
 
             <ul class="main__ul-sports-location">
-                <!-- Results will print here -->
+                <!-- Sports facilities esults will be printed here using the append method -->
             </ul>
 
             <a href="#main">Return to sport selections.</a>
@@ -129,7 +134,8 @@
 
     <footer>
 
-        <p>Made with the help of the Decathlon and MapQuest APIs. Sport Icons by Adrien Coquet from the Noun Project</p>
+        <p>Made with the help of the <a href="https://developers.decathlon.com/" target="_blank">Decathlon</a> and <a href="https://developer.mapquest.com/" target="_blank">MapQuest</a> APIs. Sport Icons by <a href="https://thenounproject.com/coquet_adrien/collection/sport/" target="_blank">Adrien</a> Coquet from the Noun Project.</p>
+
         <p>Copyright <a href="https://sylcodes.com/" target="_blank">Syl Aucoin</a> & <a href="https://victorhok.com/">Victor Hok</a> @ <a href="https://junocollege.com/">Juno College</a> 2020</p>
 
     </footer>

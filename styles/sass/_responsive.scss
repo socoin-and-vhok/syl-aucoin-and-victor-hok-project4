@@ -1,4 +1,7 @@
 @media (max-width: 680px) {
+    header {
+        height: 40vh;
+    }
     .main__ul-sports-btn,
     fieldset.main__fieldset-icon {
         max-width: 340px;
@@ -8,6 +11,10 @@
 }
 
 @media (max-width:460px) {
+    header {
+            height: 30vh;
+    }
+
     .main__ul-sports-btn {
         max-width: 220px;
     }

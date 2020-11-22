@@ -342,6 +342,10 @@ main p:first-of-type {
   color: #161636;
 }
 
+.main__form fieldset legend span {
+  font-size: 1.6rem;
+}
+
 .main__form fieldset.main__fieldset-icon {
   width: 500px;
   margin: 0 auto;
@@ -358,7 +362,7 @@ main p:first-of-type {
 
 .main__form label, .main__form button {
   border-radius: 10px;
-  border: 1px solid black;
+  border: 1px solid #161636;
   margin: 20px 10px;
 }
 
@@ -442,6 +446,10 @@ header, footer {
   text-align: center;
 }
 
+header p, footer p {
+  margin: 10px;
+}
+
 header {
   background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(22, 22, 54, 0.85))), url(./../assets/soccer-ball-in-grass-bw.jpg);
   background-image: linear-gradient(rgba(22, 22, 54, 0.85)), url(./../assets/soccer-ball-in-grass-bw.jpg);
@@ -481,6 +489,9 @@ footer {
 }
 
 @media (max-width: 680px) {
+  header {
+    height: 40vh;
+  }
   .main__ul-sports-btn,
   fieldset.main__fieldset-icon {
     max-width: 340px;
@@ -493,6 +504,9 @@ footer {
 }
 
 @media (max-width: 460px) {
+  header {
+    height: 30vh;
+  }
   .main__ul-sports-btn {
     max-width: 220px;
   }
