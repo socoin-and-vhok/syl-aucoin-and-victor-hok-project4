@@ -1,0 +1,9 @@
+@media (max-width: 680px) {
+    .main__ul-sports-btn,
+    fieldset.main__fieldset-icon {
+        max-width: 340px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}
+

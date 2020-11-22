@@ -246,7 +246,7 @@ html {
 
 body {
   font-family: "Inter", sans-serif;
-  font-size: 1.8rem;
+  font-size: 2rem;
 }
 
 img {
@@ -288,9 +288,13 @@ main p:first-of-type {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  width: 500px;
+  margin: 0 auto;
 }
 
 .main__ul-sports-btn button {
@@ -300,6 +304,16 @@ main p:first-of-type {
   margin: 20px 10px;
   background-color: #161636;
   border-radius: 50%;
+  border: none;
+}
+
+.main__ul-sports-btn button:focus-within {
+  background-color: #FF7300;
+}
+
+.main__ul-sports-btn button img {
+  width: 50px;
+  height: 50px;
 }
 
 .main__form {
@@ -408,6 +422,10 @@ main p:first-of-type {
   border-radius: 10px;
 }
 
+.main__ul-sports-location li .main__div-address {
+  text-align: center;
+}
+
 header, footer {
   text-align: center;
 }
@@ -441,4 +459,16 @@ footer {
   color: white;
   background-color: #161636;
   padding: 20px 0;
+}
+
+@media (max-width: 680px) {
+  .main__ul-sports-btn,
+  fieldset.main__fieldset-icon {
+    max-width: 340px;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+  }
 }

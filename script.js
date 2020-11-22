@@ -6,29 +6,13 @@
 
 
 //TO DO List - in no particular order
-/**
- * Error Handling:
- * - Message in the event that there are no facilities being returned (highly unlikely, though)
- */
 
-//General formating and styling of results + page
-//  Show active button
-//  Pick colours and font!
-//  Maybe have the results in a grid on desktop, and in a single column on mobile?
-
-//Remove console logs and tidy up
-
-//STRETCH Goal - 
-// On click of map, a maps directions page pops up?
 
 
 const app = {};
 //variable to store user's location (geolocation)
 app.userLongitude;
 app.userLatitude;
-
-//Empty array to contain all the sports - for potential search/autocomplete
-// app.sportsArray = [];
 
 //Variables for later :)
 app.sports;
@@ -48,8 +32,6 @@ $('.main__ul-sports-btn').on('click', 'button', function() {
     //The function takes a single location paramter (a string composed of the longitude and the latitude)
     app.userLongLat = `${app.userLongitude},${app.userLatitude}`;
     app.getFacilities(app.sportId, app.userLongLat);
-
-    console.log(app.userLongLat);
 });
 
 
@@ -98,7 +80,6 @@ app.getFacilities = (id, location) => {
     })
     .then((facilitiesSuccessfulResponse) => {
         app.facilities = facilitiesSuccessfulResponse.data.features;
-            console.log(app.facilities);
             //empty the page before we print more results
             $('.main__ul-sports-location').empty();
             //check if there are facilities
@@ -120,7 +101,6 @@ app.getFacilities = (id, location) => {
             //call the print results function
             app.printFacilitiesResultsonPage();
             }
-        console.log(app.reverseLocationPromises);
     })
     .fail((facilitiesFail) => {
         $('.main__ul-sports-location').empty();
@@ -160,15 +140,12 @@ app.getLocation = () => {
             $('main p:first-of-type').hide();
 
             $('.main__form')
-                
+                .trigger('reset')
                 .toggleClass('form--active')
                 .on('submit', function(e){
                     e.preventDefault();
                     app.userLongLat = $('input[name=city]:checked').val();
                     app.sportId = app.getSportId($('input[name=sport]:checked').val());
-                    console.log(app.sportId);
-                    console.log(app.userLongLat);
-
                     app.getFacilities(app.sportId, app.userLongLat);
                 });
         }
@@ -181,14 +158,12 @@ app.printFacilitiesResultsonPage = () => {
     $.when(...app.reverseLocationPromises)
 
     .then(function(...missingAddressesResponse) {
-    console.log(missingAddressesResponse);
     //Maps only the address property of the reverseLocationResponse array to a new array.
     app.facilitiesMissingAddresses = missingAddressesResponse.map( address => address[0].results[0].locations[0] );
-    console.log(app.facilitiesMissingAddresses);
+
         // temporary loop for testing
         app.facilitiesMissingAddresses.forEach((location) => {
-            console.log(location.street);
-            console.log(location.adminArea5);
+            
         });
         for (let i = 0; i < app.facilities.length; i++) {
             app.facilityName = app.facilities[i].properties.name;
@@ -198,17 +173,19 @@ app.printFacilitiesResultsonPage = () => {
             //!!!!!! ERROR HANDLING if address and contact fields are null - get only ones with address? 
             $('.main__ul-sports-location').append(
             
-                `<li>
+                `<li tabindex="0">
+
                     <div class="main__div-address">
                         <h2>${app.facilityName}</h2>
                         <address>${app.facilityAddress.address !== null ? app.facilityAddress.address : app.facilitiesMissingAddresses[i].street}</address>
                         <address>${app.facilityAddress.city !== null ? app.facilityAddress.city : app.facilitiesMissingAddresses[i].adminArea5}</address>
                     </div>
                     <div class="main__div-map">
-                        <img src="${app.facilitiesMissingAddresses[i].mapUrl.replace("marker-sm-50318A-1&scalebar=true&zoom=15", "marker-sm-ff6700-&   scalebar=false&zoom=14")}" alt="a map">
+                    <a href="https://www.google.com/maps/place/${app.facilitiesMissingAddresses[i].latLng.lat},${app.facilitiesMissingAddresses[i].latLng.lng}" target="_blank"><img src="${app.facilitiesMissingAddresses[i].mapUrl.replace("marker-sm-50318A-1&scalebar=true&zoom=15", "marker-sm-ff6700-&   scalebar=false&zoom=14")}" alt="a map"></a>
                     </div>
                 </li>`
             )
+
         }
     })
     .fail(function(noAddresses) {
@@ -221,7 +198,6 @@ app.printFacilitiesResultsonPage = () => {
 app.init = () => {
     app.getLocation();
     app.getAllSports();
-    console.log('ready!');
 }
 
 
