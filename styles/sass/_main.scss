@@ -1,7 +1,7 @@
 // HIGH LEVEL CONTAINERS
 .wrapper {
     width: 75%;
-    max-width: 1280px;
+    max-width: $wrapper-max-width;
     margin: 0 auto;
 }
 
@@ -20,7 +20,7 @@ main {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    width: 500px;
+    width: $btn-panel-width;
     margin: 0 auto;
 
     button {
@@ -72,7 +72,7 @@ main {
     }
 
     fieldset.main__fieldset-icon {
-        width: 500px;
+        width: $btn-panel-width;
         margin: 0 auto;
     }
 
@@ -148,6 +148,10 @@ main {
         .main__div-address {
             text-align: center;
         }
+    }
+
+    p {
+        margin: 0 auto;
     }
 }
 
