@@ -112,7 +112,7 @@ app.getFacilities = (id, location) => {
 //We pass the coordinates into the mapquest API to get an address, and a mini map to display on the page
 app.getFacilitiesMissingAddresses = (latitude, longitude) => {
     return $.ajax({
-        url: 'http://www.mapquestapi.com/geocoding/v1/reverse',
+        url: 'https://www.mapquestapi.com/geocoding/v1/reverse',
         method: 'GET',
         dataType: 'jsonp',
         data: {
