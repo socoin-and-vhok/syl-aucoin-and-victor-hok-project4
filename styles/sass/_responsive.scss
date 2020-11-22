@@ -7,3 +7,13 @@
     }
 }
 
+@media (max-width:460px) {
+    .main__ul-sports-btn {
+        max-width: 220px;
+    }
+
+    fieldset.main__fieldset-icon {
+        max-width: 250px;
+    }
+}
+
