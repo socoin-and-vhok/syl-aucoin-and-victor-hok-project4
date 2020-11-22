@@ -114,7 +114,7 @@ app.getFacilitiesMissingAddresses = (latitude, longitude) => {
     return $.ajax({
         url: 'https://www.mapquestapi.com/geocoding/v1/reverse',
         method: 'GET',
-        dataType: 'jsonp',
+        dataType: 'json',
         data: {
             key: 'ODaFMgthq8yJftHwGItv3AjG0fdnOHgp',
             location: `${latitude},${longitude}`,
