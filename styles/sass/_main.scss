@@ -18,7 +18,10 @@ main {
 // SPORTS SELECTION BUTTONS BAR
 .main__ul-sports-btn {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
+    width: 500px;
+    margin: 0 auto;
 
     button {
         color: white;
@@ -27,6 +30,16 @@ main {
         margin: 20px 10px;
         background-color: $secondary-color;
         border-radius: 50%;
+        border: none;
+
+        &:focus-within {
+            background-color: $primary-color;
+        }
+
+        img {
+            width: $icon-size;
+            height: $icon-size;
+        }
     }
 }
 
@@ -116,6 +129,9 @@ main {
         padding: 10px;
         background-color: white;
         border-radius: 10px;
+
+        .main__div-address {
+            text-align: center;
+        }
     }
 }
-
