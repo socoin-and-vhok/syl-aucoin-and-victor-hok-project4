@@ -449,6 +449,7 @@ header {
   background-size: cover;
   background-position: center;
   height: 60vh;
+  min-height: 150px;
 }
 
 header p {
@@ -470,5 +471,14 @@ footer {
             justify-content: center;
     -ms-flex-wrap: wrap;
         flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 460px) {
+  .main__ul-sports-btn {
+    max-width: 220px;
+  }
+  fieldset.main__fieldset-icon {
+    max-width: 250px;
   }
 }
