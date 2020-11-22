@@ -26,12 +26,18 @@ app.reverseLocationPromises = [];
 
 // Button Event Listener: This event listener is applied to all the HTML sports activity buttons.
 $('.main__ul-sports-btn').on('click', 'button', function() {
+    //Remove the class of btn--active to the previous butteon (if need be)
+    $('.main__ul-sports-btn>li button.btn--active').removeClass('btn--active');
+    //Add the class of btn--active to the current selection, as to give our user a visual indicator of the selected sport
+    $(this).addClass('btn--active');
     // Upon clicking the button, retrieve its inline html value and assign to sportsValue
     app.sportId = app.getSportId($(this).data('slug'));
     //Call the function to get the facilities for the chosen sport
     //The function takes a single location paramter (a string composed of the longitude and the latitude)
     app.userLongLat = `${app.userLongitude},${app.userLatitude}`;
     app.getFacilities(app.sportId, app.userLongLat);
+
+    
 });
 
 
@@ -75,7 +81,7 @@ app.getFacilities = (id, location) => {
             sports: id,
             origin: location,
             radius: '99',
-            limit: 4
+            limit: 15
         }
     })
     .then((facilitiesSuccessfulResponse) => {
@@ -85,7 +91,7 @@ app.getFacilities = (id, location) => {
             //check if there are facilities
             //If there aren't any - print a message letting the user know.
             if (app.facilities.length <= 0) {
-                $('.main__ul-sports-location').append(`<p>We're sorry, no facilities were found within a 20km radius for the selected sport.</p>`)
+                $('.main__ul-sports-location').append(`<p>We're sorry, no facilities were found within a 99km radius for the selected sport.</p>`)
             } else {
             //declare a variable to store our array or returned promises
             app.reverseLocationPromises = [];
@@ -158,13 +164,15 @@ app.printFacilitiesResultsonPage = () => {
     $.when(...app.reverseLocationPromises)
 
     .then(function(...missingAddressesResponse) {
-    //Maps only the address property of the reverseLocationResponse array to a new array.
-    app.facilitiesMissingAddresses = missingAddressesResponse.map( address => address[0].results[0].locations[0] );
+    
+    //This takes care of a very specific corner case where the result returned is an array of objects instead of array of arrays.This is the case when there is a single result.
+    if(Array.isArray(missingAddressesResponse[0])) {
+        //Maps only the address property of the reverseLocationResponse array to a new array.
+        app.facilitiesMissingAddresses = missingAddressesResponse.map( address => address[0].results[0].locations[0] );
+    } else {
+        app.facilitiesMissingAddresses = [missingAddressesResponse[0].results[0].locations[0]];
+    }
 
-        // temporary loop for testing
-        app.facilitiesMissingAddresses.forEach((location) => {
-            
-        });
         for (let i = 0; i < app.facilities.length; i++) {
             app.facilityName = app.facilities[i].properties.name;
             app.facilityAddress = app.facilities[i].properties.address_components;

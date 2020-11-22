@@ -235,13 +235,9 @@ html {
   overflow: hidden;
 }
 
-h1 {
-  color: #FF7300;
-  font-size: 5rem;
-}
-
 html {
   font-size: 62.5%;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -275,13 +271,13 @@ a {
 }
 
 main {
-  min-height: 50vh;
   padding: 20px 0;
   background-color: #d9e0e5;
 }
 
 main p:first-of-type {
   text-align: center;
+  color: #161636;
 }
 
 .main__ul-sports-btn {
@@ -307,13 +303,17 @@ main p:first-of-type {
   border: none;
 }
 
-.main__ul-sports-btn button:focus-within {
+.main__ul-sports-btn button:focus, .main__ul-sports-btn button:hover {
   background-color: #FF7300;
 }
 
 .main__ul-sports-btn button img {
   width: 50px;
   height: 50px;
+}
+
+.main__ul-sports-btn .btn--active {
+  background-color: #FF7300;
 }
 
 .main__form {
@@ -339,6 +339,7 @@ main p:first-of-type {
 
 .main__form fieldset legend {
   margin: 0 auto;
+  color: #161636;
 }
 
 .main__form fieldset.main__fieldset-icon {
@@ -351,7 +352,7 @@ main p:first-of-type {
   z-index: -10;
 }
 
-.main__form input:focus + label, .main__form input:checked + label {
+.main__form input:focus + label, .main__form input:checked + label, .main__form input:hover + label {
   background-color: #FF7300;
 }
 
@@ -398,6 +399,10 @@ main p:first-of-type {
       flex-wrap: wrap;
 }
 
+.main__ul-sports-location h2 {
+  font-size: 2.2rem;
+}
+
 .main__ul-sports-location li {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -419,11 +424,18 @@ main p:first-of-type {
   margin: 10px;
   padding: 10px;
   background-color: white;
+  color: #161636;
   border-radius: 10px;
 }
 
 .main__ul-sports-location li .main__div-address {
   text-align: center;
+}
+
+.main__ul-sports-location + a {
+  display: block;
+  text-align: center;
+  color: #161636;
 }
 
 header, footer {
@@ -450,6 +462,11 @@ header {
   background-position: center;
   height: 60vh;
   min-height: 150px;
+}
+
+header h1 {
+  color: #FF7300;
+  font-size: 5rem;
 }
 
 header p {
