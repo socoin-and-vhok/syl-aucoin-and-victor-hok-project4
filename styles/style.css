@@ -436,6 +436,10 @@ main p:first-of-type {
   text-align: center;
 }
 
+.main__ul-sports-location p {
+  margin: 0 auto;
+}
+
 .main__ul-sports-location + a {
   display: block;
   text-align: center;
