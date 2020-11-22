@@ -181,7 +181,7 @@ app.printFacilitiesResultsonPage = () => {
                         <address>${app.facilityAddress.city !== null ? app.facilityAddress.city : app.facilitiesMissingAddresses[i].adminArea5}</address>
                     </div>
                     <div class="main__div-map">
-                    <a href="https://www.google.com/maps/place/${app.facilitiesMissingAddresses[i].latLng.lat},${app.facilitiesMissingAddresses[i].latLng.lng}" target="_blank"><img src="${app.facilitiesMissingAddresses[i].mapUrl.replace("marker-sm-50318A-1&scalebar=true&zoom=15", "marker-sm-ff6700-&   scalebar=false&zoom=14")}" alt="a map"></a>
+                    <a href="https://www.google.com/maps/place/${app.facilitiesMissingAddresses[i].latLng.lat},${app.facilitiesMissingAddresses[i].latLng.lng}" target="_blank"><img src="${app.facilitiesMissingAddresses[i].mapUrl.replace("marker-sm-50318A-1&scalebar=true&zoom=15", "marker-sm-ff6700-&   scalebar=false&zoom=14").replace("http://", "https://")}" alt="a map"></a>
                     </div>
                 </li>`
             )
