@@ -8,7 +8,6 @@
 //TO DO List - in no particular order
 /**
  * Error Handling:
- * -Selected sport but not facility
  * - Message in the event that there are no facilities being returned (highly unlikely, though)
  */
 
@@ -93,8 +92,8 @@ app.getFacilities = (id, location) => {
         data: {
             sports: id,
             origin: location,
-            radius: '20',
-            limit: 3
+            radius: '99',
+            limit: 4
         }
     })
     .then((facilitiesSuccessfulResponse) => {
@@ -124,7 +123,8 @@ app.getFacilities = (id, location) => {
         console.log(app.reverseLocationPromises);
     })
     .fail((facilitiesFail) => {
-        $('.main__ul-sports-location').append(`<p>Oops! It seems that we've encountered an error retreiving your results. ${facilitiesFail.status} ${facilitiesFail.statusText}</p>`)
+        $('.main__ul-sports-location').empty();
+        $('.main__ul-sports-location').append(`<p>Oops! It seems that we've encountered an error retreiving your results. Please make sure that you've shared your location. ${facilitiesFail.status} ${facilitiesFail.statusText}</p>`)
     });
 }
 
@@ -157,6 +157,7 @@ app.getLocation = () => {
         function() {
             //Hide the sports selection buttons
             $('.main__ul-sports-btn').hide();
+            $('main p:first-of-type').hide();
 
             $('.main__form')
                 
